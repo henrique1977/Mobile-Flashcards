@@ -3,10 +3,36 @@ import { StyleSheet, Text, View } from 'react-native';
 import { MaterialCommunityIcons } from '@expo/vector-icons';
 import { createBottomTabNavigator } from 'react-navigation';
 
+/**
+@TODO:
+  add redux
+  add redux-connect
+  create tests
+  create store
+  create reducers
+  create actions to:
+    - add new deck
+    - remove deck
+    - add new card to deck
+    - name the deck
+    - shuffle deck function
+
+
+*/
+
+const FlexDemo = props => (
+  <View style={{flex: 1}}>
+    <View style={{flex: 1, backgroundColor: 'red'}} />
+    <View style={{flex: 2, backgroundColor: 'green'}} />
+    <View style={{flex: 3, backgroundColor: 'blue'}} />
+  </View>
+);
+
 const Decks = () => (
   <View style={styles.container}>
     <MaterialCommunityIcons name="cards" color="grey" size={100} />
     <Text>List of Decks</Text>
+    <FlexDemo />
   </View>
 );
 
@@ -29,6 +55,13 @@ const Tabs = createBottomTabNavigator({
     screen: AddDeck,
     navigationOptions: {
       tabBarLabel: "Add Deck",
+      tabBarIcon: <MaterialCommunityIcons name="note-plus" color="grey" size={25} />
+    }
+  },
+  Demo: {
+    screen: FlexDemo,
+    navigationOptions: {
+      tabBarLabel: "Demo",
       tabBarIcon: <MaterialCommunityIcons name="note-plus" color="grey" size={25} />
     }
   },
