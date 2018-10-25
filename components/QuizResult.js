@@ -5,9 +5,6 @@ import { round2Dec } from '../library/functions';
 
 const QuizResult = ({numCorrect, totalCards, startQuiz, goBack}) => {
 
-  console.log('Q RESYLT');
-  console.log(startQuiz);
-
   const calcScorePercentage = (numCorrect, totalCards) => {
     if (numCorrect === 0) {
       return 0;
@@ -15,18 +12,19 @@ const QuizResult = ({numCorrect, totalCards, startQuiz, goBack}) => {
     return (numCorrect / totalCards) * 100;
   }
 
-  console.log('welcome to Quiz Result component');
   const scorePercentage = round2Dec(calcScorePercentage(numCorrect, totalCards));
-
   const scoreText = `You've got ${numCorrect} out of ${totalCards} correct, or ${scorePercentage}%.`;
 
   return (
     <View style={styles.quizContainer}>
-      <Text>Thank you for completing this quiz. Please find your results below: </Text>
-      <Text>{scoreText}</Text>
+      <View style={styles.resultsView}>
+        <Text style={styles.title}>Result</Text>
+        <Text style={styles.subTitle}>Thank you for completing this quiz. Please find your results below: </Text>
+        <Text style={styles.score}>{scoreText}</Text>
+      </View>
       <View style={styles.buttons}>
-        <Button onPress={() => {startQuiz()}} >Restart Quiz</Button>
-        <Button onPress={() => {goBack()}} >Back to Deck</Button>
+        <Button buttonStyle={styles.buttonWhite} onPress={() => {startQuiz()}} >Restart Quiz</Button>
+        <Button buttonStyle={styles.button} onPress={() => {goBack()}} >Back to Deck</Button>
       </View>
     </View>
   );
@@ -35,56 +33,52 @@ const QuizResult = ({numCorrect, totalCards, startQuiz, goBack}) => {
 const styles = StyleSheet.create({
   quizContainer: {
     flex: 1,
-    justifyContent: 'space-between',
-    borderWidth: 1,
+    justifyContent: 'flex-start',
+    alignItems: 'center',
+
   },
-  cardView: {
+  title: {
+    fontSize: 36,
+  },
+  subTitle: {
+    fontSize: 20,
+    paddingTop: 20,
+  },
+  score: {
+    fontSize: 20,
+    paddingTop: 30,
+  },
+  resultsView: {
     flex: 6,
     alignItems: 'center',
   },
   cardText: {
     fontSize: 26,
   },
-  buttonView: {
-    flex:2,
+  buttons: {
+    flex:3,
+    justifyContent: 'space-evenly',
   },
   button: {
     padding: 10,
-    color: 'red',
+    color: 'black',
     borderWidth: 1,
-    borderRadius: 5,
+    borderRadius: 6,
     borderColor: "#CCCCCC",
-    fontWeight: 'bold',
     textAlign: 'center',
     overflow: 'hidden',
+    fontSize: 28,
   },
-  buttons: {
-    flex:6,
-    justifyContent: 'space-evenly',
-  },
-  correctBtn: {
+  buttonWhite: {
     padding: 10,
-    backgroundColor: 'green',
-    color: '#FFFFFF',
+    color: 'white',
+    backgroundColor: 'black',
     borderWidth: 1,
-    borderRadius: 5,
+    borderRadius: 6,
     borderColor: "#CCCCCC",
-    fontWeight: 'bold',
     textAlign: 'center',
     overflow: 'hidden',
-    fontSize: 20,
-  },
-  incorrectBtn: {
-    padding: 10,
-    backgroundColor: 'red',
-    color: '#FFFFFF',
-    borderWidth: 1,
-    borderRadius: 5,
-    borderColor: "#CCCCCC",
-    fontWeight: 'bold',
-    textAlign: 'center',
-    overflow: 'hidden',
-    fontSize: 20,
+    fontSize: 28,
   }
 });
 
