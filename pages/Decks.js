@@ -7,13 +7,7 @@ import { objToArray } from '../library/functions';
 
 class Decks extends React.Component {
 
-//onPressItem={this._onPressItem}
-//selected={!!this.state.selected.get(item.id)}
   renderItem = (param) => {
-
-    console.log('render:  ');
-    console.log(this.props);
-
     const key = param.item;
     const decks = this.props.decks;
 
@@ -26,10 +20,7 @@ class Decks extends React.Component {
 
  keyExtractor = (item, index) => item;
 
-render() {
-
-    console.log('hllo:');
-    console.log(this.props.decks);
+ render() {
 
       return (
         <View style={styles.container}>
