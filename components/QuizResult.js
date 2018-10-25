@@ -1,34 +1,42 @@
 import React from 'react';
 import { StyleSheet, View, Text } from 'react-native';
 import Button from '../components/Button';
-import { QUESTION, ANSWER } from '../redux/actions/Quiz';
+import { round2Dec } from '../library/functions';
 
-const Card = (props) => {
+const QuizResult = ({numCorrect, totalCards, startQuiz, goBack}) => {
 
-  const {card, cardSide, onPress, markCorrect, markIncorrect} = props;
-  const text = (cardSide === QUESTION) ? card.question : card.answer;
-  const buttonText = (cardSide === QUESTION) ?  'Answer' : 'Question';
+  console.log('Q RESYLT');
+  console.log(startQuiz);
+
+  const calcScorePercentage = (numCorrect, totalCards) => {
+    if (numCorrect === 0) {
+      return 0;
+    }
+    return (numCorrect / totalCards) * 100;
+  }
+
+  console.log('welcome to Quiz Result component');
+  const scorePercentage = round2Dec(calcScorePercentage(numCorrect, totalCards));
+
+  const scoreText = `You've got ${numCorrect} out of ${totalCards} correct, or ${scorePercentage}%.`;
 
   return (
-    <View style={styles.cardContainer}>
-      <View style={styles.cardView}>
-        <Text style={styles.cardText}>{text}</Text>
-      </View>
-      <View style={styles.buttonView}>
-          <Button onPress={onPress} buttonStyle={styles.button}>{buttonText}</Button>
-      </View>
+    <View style={styles.quizContainer}>
+      <Text>Thank you for completing this quiz. Please find your results below: </Text>
+      <Text>{scoreText}</Text>
       <View style={styles.buttons}>
-        <Button onPress={markCorrect} buttonStyle={styles.correctBtn}>Correct</Button>
-        <Button onPress={markIncorrect} buttonStyle={styles.incorrectBtn}>Incorrect</Button>
+        <Button onPress={() => {startQuiz()}} >Restart Quiz</Button>
+        <Button onPress={() => {goBack()}} >Back to Deck</Button>
       </View>
     </View>
   );
 }
 
 const styles = StyleSheet.create({
-  cardContainer: {
+  quizContainer: {
     flex: 1,
-    justifyContent: 'flex-end',
+    justifyContent: 'space-between',
+    borderWidth: 1,
   },
   cardView: {
     flex: 6,
@@ -80,4 +88,4 @@ const styles = StyleSheet.create({
   }
 });
 
-export default Card;
+export default QuizResult;
