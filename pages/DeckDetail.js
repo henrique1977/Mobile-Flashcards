@@ -1,5 +1,5 @@
 import React from 'react';
-import { StyleSheet, View, Text, StatusBar} from 'react-native';
+import { StyleSheet, View, Text, StatusBar, Animated, Dimensions } from 'react-native';
 import { connect } from 'react-redux';
 import * as actions from '../redux/actions/Decks';
 import { startQuiz } from '../redux/actions/Quiz';
@@ -7,60 +7,56 @@ import { startQuiz } from '../redux/actions/Quiz';
 import { getCardCountExpression, selectDeckByTitle, totalCards } from '../library/functions';
 import Button from '../components/Button';
 
+const screenWidth = Dimensions.get('window').width; //full width
+const screenHeight = Dimensions.get('window').height; //full height
+
 class DeckDetail extends React.Component {
 
   constructor(props) {
       super(props);
-
-      console.log('Constr called');
       this.deckTitle = this.props.navigation.getParam('deckTitle', null);
+      this.state = {
+        opacity: new Animated.Value(0)
+      };
   }
 
-  // componentDidMount = () => {
-  //   console.log('COMPONENT Did mount on deck detail');
-  //   const deck = this.props.navigation.getParam('deck', null);
-  // }
+  componentDidMount = () => {
+    const {opacity} = this.state;
 
-  handleOnNavigateBack = (numOfCards) => {
-    console.log('REFRESHH');
+    Animated.timing(opacity, {
+      toValue: 1,
+      duration: 1200
+    }).start();
 
-    console.log('Refresh was called!');
-    //this.props.refresh();
-    // this.setState({
-    //   numOfCards: numOfCards
-    // })
   }
-
 
   startQuiz = (deck) => {
-    console.log('start quiz was pressed.');
     this.props.startQuiz();
     this.props.navigation.navigate('Quiz', {deck: deck, startQuiz: this.startQuiz});
   };
 
   render() {
 
-    console.log('RENDER CALLED DECK *#*#*##! ');
-    console.log(this.state);
-    console.log(this.props);
-
     const deck = selectDeckByTitle(this.deckTitle, this.props.decks);
-    console.log(deck);
-
+    const {opacity} = this.state;
 
     return(
-      <View style={styles.container}>
-        <Text style={styles.title}>{deck.title}</Text>
-        <Text style={styles.numCards}>{getCardCountExpression(totalCards(deck))}</Text>
-        <Button onPress={() => {
-            this.props.navigation.navigate('AddCard', {deck: deck, refresh: this.handleOnNavigateBack});
-          }}
-        >Add Card</Button>
-        <Button style={styles.button} onPress={() => this.startQuiz(deck)} >Start Quiz</Button>
-      </View>
+      <Animated.View style={[styles.container, {opacity}]}>
+        <View style={styles.content}>
+          <Text style={styles.title}>{deck.title}</Text>
+          <Text style={styles.numCards}>{getCardCountExpression(totalCards(deck))}</Text>
+        </View>
+        <View style={styles.buttons}>
+          <Button onPress={() => {
+              this.props.navigation.navigate('AddCard', {deck: deck, refresh: this.handleOnNavigateBack});
+            }}
+            buttonStyle={styles.buttonWhite}
+          >Add Card</Button>
+          <Button buttonStyle={styles.button} onPress={() => this.startQuiz(deck)} >Start Quiz</Button>
+        </View>
+      </Animated.View>
     );
   }
-
 }
 
 const styles = StyleSheet.create({
@@ -68,26 +64,45 @@ const styles = StyleSheet.create({
     flex: 1,
     backgroundColor: '#fff',
     alignItems: 'center',
-    justifyContent: 'center',
-    paddingTop: 30
+    justifyContent: 'flex-start',
+    paddingTop: 30,
+  },
+  content: {
+    flex: 7,
+    alignItems: 'center',
+  },
+  buttons: {
+    flex: 4,
+    justifyContent: 'space-evenly',
   },
   button: {
-    width: 200,
-    height: 50,
-    padding: 8,
+    padding: 10,
+    color: 'black',
     borderWidth: 1,
+    borderRadius: 6,
     borderColor: "#CCCCCC",
-    margin: 10
+    textAlign: 'center',
+    overflow: 'hidden',
+    fontSize: 28,
   },
-  list: {
-    height: 30
+  buttonWhite: {
+    padding: 10,
+    color: 'white',
+    backgroundColor: 'black',
+    borderWidth: 1,
+    borderRadius: 6,
+    borderColor: "#CCCCCC",
+    textAlign: 'center',
+    overflow: 'hidden',
+    fontSize: 28,
   },
   title: {
-    fontSize: 24
+    fontSize: 36,
   },
   numCards: {
+    paddingTop: 20,
     fontSize: 16,
-    color: "#333333"
+    color: "#333333",
   }
 });
 
