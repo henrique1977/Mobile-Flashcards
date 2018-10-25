@@ -1,8 +1,8 @@
 import React from 'react';
 import { StyleSheet, View, Text, TextInput, Button } from 'react-native'
+import { NavigationActions, StackActions } from 'react-navigation';
 import { connect } from 'react-redux';
 import * as actions from '../redux/actions/Decks';
-
 
 class AddDeck extends React.Component {
   constructor(props) {
@@ -19,14 +19,23 @@ class AddDeck extends React.Component {
     if (this.state.deckTitle.length > 0) {
         this.props.addNewDeck(this.state.deckTitle);
         this.setState({deckTitle: ""})
-        console.log('HERE chp 2');
-        this.props.navigation.navigate('Decks');
+
+        // Navigate back to deck's list, clear the navigation stack
+        const resetAction = StackActions.reset({
+          index: 0,
+          actions: [NavigationActions.navigate({ routeName: 'Decks' })],
+        });
+        this.props.navigation.dispatch(resetAction);
+
+        // then, navigate to the newly created individual deck detail page
+        this.props.navigation.navigate('DeckDetail',
+          {deckTitle: this.state.deckTitle},
+          NavigationActions.navigate({ routeName: 'DeckDetail' })
+        );
     }
   }
 
   render() {
-
-    //console.log(this.props);
 
       return (
         <View style={styles.container}>

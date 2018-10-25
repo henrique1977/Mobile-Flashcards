@@ -8,7 +8,6 @@ const height = Dimensions.get('window').height; //full height
 const DeckListItem = ({deck, navigation}) => {
 
   const handleTap = (tap) => {
-    console.log(`Deck ${deck.title} was pressed`);
     navigation.navigate('DeckDetail', {deckTitle: deck.title});
   }
 
