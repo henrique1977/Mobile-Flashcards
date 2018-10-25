@@ -28,13 +28,11 @@ export const getDeck = async (title) => {
 }
 
 export const saveDeckTitle = (title) => {
-  console.log('API: SAVE DECK TITLE CALLED!');
   const newDeck = newDeckWithTitle(title);
   return AsyncStorage.mergeItem(DECKS_STORAGE_KEY, JSON.stringify({[title]: newDeck}));
 }
 
 export const addCardToDeck = async (title, card) => {
-  console.log('Lets save a card into the deck: ');
   try {
     const deck = await getDeck(title);
     if (deck !== null) {

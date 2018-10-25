@@ -6,8 +6,7 @@ export const setUpLocalNotification = ({dispatch}) => next => action => {
   next(action);
 
   if (action.type === APP_HAS_STARTED) {
-    console.log('APP HAS started Notifi middleware.');
-    setLocalNotification();
+    setLocalNotification(); // add daily notification starting tomorrow
   }
 };
 
@@ -15,9 +14,8 @@ export const clearTodaysNotificationAddForTomorrow = ({dispatch}) => next => act
   next(action);
 
   if (action.type === START_QUIZ) {
-    console.log('Quiz started - NOTIF MIDDLEWARE.');
     clearLocalNotification(); // remove the notification for today
-    setLocalNotification(); // add notification for tomorrow
+    setLocalNotification(); // add daily notification starting tomorrow
   }
 };
 

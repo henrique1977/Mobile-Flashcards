@@ -8,7 +8,7 @@ export const addNewDeck = ({dispatch}) => next => action => {
   if (action.type === ADD_NEW_DECK) {
     const {title} = action.payload;
     dispatch(saveDeckTitle(title));
-    api.saveDeckTitle(title); // save to AsyncStorage
+    api.saveDeckTitle(title); // save using AsyncStorage
   }
 };
 
@@ -20,8 +20,6 @@ export const getDecksFromStorage = ({dispatch}) => next => action => {
       .then((decksObj) => {
         dispatch(populateDecks(decksObj)); // update redux with data from storage
       });
-    //console.log(decksObj);
-
   }
 };
 
@@ -31,12 +29,9 @@ export const saveCardtoStorage = ({dispatch}) => next => action => {
   if (action.type === ADD_CARD_TO_DECK) {
     const decksPromise = api.addCardToDeck(action.payload.title, action.payload.card)
       .then((decksObj) => {
-        console.log('Card saved to storage.');
+        // Card saved to storage.
       });
-    //console.log(decksObj);
-
   }
 };
-
 
 export const decksMdl = [addNewDeck, getDecksFromStorage, saveCardtoStorage];

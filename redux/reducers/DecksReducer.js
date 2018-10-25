@@ -25,8 +25,6 @@ export default (state = initialState, action) => {
     }
 
     case POPULATE_INITIAL_DECKS: {
-      console.log('reducer');
-      console.log(action.payload);
       return (typeof action.payload !== 'undefined') ? action.payload : state; // return the new state from storage if available
     }
 

@@ -33,7 +33,6 @@ export const setLocalNotification = () => {
     .then(JSON.parse)
     .then(data => {
       if (data === null) {
-        console.log('INSIDE LOCAL NOTIF');
         Permissions.askAsync(Permissions.NOTIFICATIONS)
           .then((status) => {
 
@@ -47,10 +46,8 @@ export const setLocalNotification = () => {
                   repeat: 'day',
                 }
               );
-              console.log('SCHEDULLING!!!!! ');
               // set flag to true
               AsyncStorage.setItem(NOTIFICATION_KEY, JSON.stringify(true));
-
             }
           })
       }

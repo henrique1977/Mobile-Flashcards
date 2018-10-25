@@ -21,14 +21,8 @@ import DeckDetail from './pages/DeckDetail';
 import AddCard from './pages/AddCard';
 import Quiz from './pages/Quiz';
 
-
 const store = createStore(reducer, applyMiddleware(...decksMdl, ...notificationsMdl, logger));
 store.dispatch(appHasStarted());
-
-//AsyncStorage.setItem('DECKS_STORAGE_KEY', JSON.stringify({}));
-//AsyncStorage.removeItem('DECKS_STORAGE_KEY');
-//AsyncStorage.removeItem('NOTIFICATION_KEY');
-
 
 const Stack = createStackNavigator({
   Decks: {
